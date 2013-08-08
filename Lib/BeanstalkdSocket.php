@@ -509,7 +509,17 @@ class BeanstalkdSocket {
 	 *
 	 * @return string|boolean False on error otherwise a string with the name of the tube
 	 */
-	public function listTubeUsed() {}
+	public function listTubes() {
+		$this->_write('list-tubes');
+		$status = strtok($this->_read(), ' ');
+		switch ($status) {
+			case 'OK':
+				return $this->_read((integer)strtok(' '));
+			default:
+				$this->_errors[] = $status;
+				return $status;
+			}
+	}
 
 	/**
 	 * Alias for listTubeUsed
