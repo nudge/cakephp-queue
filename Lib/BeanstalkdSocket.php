@@ -477,7 +477,20 @@ class BeanstalkdSocket {
 	 * @param string $tube Name of the tube
 	 * @return string|boolean False on error otherwise a string with a yaml formatted dictionary
 	 */
-	public function statsTube($tube) {}
+
+	public function statsTube($tube) {
+		$this->_write(sprintf('stats-tube %s', $tube));
+		$status = strtok($this->_read(), ' ');
+
+		switch ($status) {
+			case 'OK':
+				return $this->_read((integer)strtok(' '));
+			case 'NOT_FOUND':
+			default:
+				$this->_errors[] = $status;
+				return false;
+		}
+	}
 
 	/**
 	 * Gives statistical information about the system as a whole
