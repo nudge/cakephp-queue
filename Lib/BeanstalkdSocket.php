@@ -524,6 +524,22 @@ class BeanstalkdSocket {
 	 * @return string|boolean False on error otherwise a string with a yaml formatted list
 	 */
 	public function listTubesWatched() {}
+	
+	// Allows the pausing of a tube
+	public function pauseTube($tube, $delay) {
+		$this->_write(sprintf('pause-tube %d %d', $tube, $delay));
+		$status = $this->_read();
+
+		switch ($status) {
+			case 'PAUSED':
+				return true;
+			case 'NOT_FOUND':
+			default:
+				$this->_errors[] = $status;
+				return false;
+		}
+	}
+	
 }
 
 ?>
