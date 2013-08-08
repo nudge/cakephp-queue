@@ -402,6 +402,41 @@ class BeanstalkdSource extends DataSource {
 	function pauseATube($tube,$delay) {
 		return $this->connection->pauseTube($tube, $delay);
 		}
+
+// list of tubes (array or text)
+
+	function listOTubes($arr = true) {
+		if ($arr) {
+			$tubes = explode("\n- ", $this->connection->listTubes());
+			array_shift($tubes);
+			return $tubes;
+			}
+		else {
+			return $this->connection->listTubes();
+			}
+		}
+		
+// stats on $tube
+
+	function tubeStats(&$Model, $tube, $arr = true) {
+		if ($arr) {
+			$string = $this->connection->statsTube($tube);			
+			$data = array();
+			foreach (explode("\n", $string) as $row) {
+				list($k, $v) = explode(': ', $row, 2);
+				if ($k == 'name')
+					$data[$k] = (string) $v;
+				else
+					$data[$k] = (int) $v;
+				}
+			array_shift($data);
+			return $data;
+			}
+		else {
+			return $this->connection->statsTube($tube);
+			}
 	
+		}
+
 }
 ?>
