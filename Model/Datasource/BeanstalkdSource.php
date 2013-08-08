@@ -291,6 +291,9 @@ class BeanstalkdSource extends DataSource {
 			case 'delete':
 			case 'touch':
 			case 'bury':
+			case 'listOTubes':
+			case 'tubeStats':
+			case 'pauseATube':
 			case 'kick':
 			case 'peek':
 			case 'next':
