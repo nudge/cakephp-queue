@@ -515,13 +515,6 @@ class BeanstalkdSocket {
 	 *
 	 * @return string|boolean False on error otherwise a string with a yaml formatted list
 	 */
-	public function listTubes() {}
-
-	/**
-	 * Returns the tube currently being used by the producer
-	 *
-	 * @return string|boolean False on error otherwise a string with the name of the tube
-	 */
 	public function listTubes() {
 		$this->_write('list-tubes');
 		$status = strtok($this->_read(), ' ');
@@ -533,6 +526,13 @@ class BeanstalkdSocket {
 				return $status;
 			}
 	}
+
+	/**
+	 * Returns the tube currently being used by the producer
+	 *
+	 * @return string|boolean False on error otherwise a string with the name of the tube
+	 */
+	public function listTubeUsed() {}
 
 	/**
 	 * Alias for listTubeUsed
