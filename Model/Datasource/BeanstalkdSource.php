@@ -393,5 +393,12 @@ class BeanstalkdSource extends DataSource {
 	function lastInsertId($source = null) {
 		return $this->__insertID;
 	}
+	
+// Allows the pausing of a tube
+
+	function pauseATube($tube,$delay) {
+		return $this->connection->pauseTube($tube, $delay);
+		}
+	
 }
 ?>
